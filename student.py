@@ -15,3 +15,10 @@ class Student:
     @property  # since the method is only to get data 
     def full_name(self):
         return f"{self._first_name} {self._last_name}"
+
+    def alert_santa(self):
+        self.naughty_list = True
+
+    @property  # since the method is only to get data
+    def student_email(self):
+        return f"{self._first_name.lower()}.{self._last_name.lower()}@email.com"
