@@ -1,5 +1,6 @@
 import unittest
 from student import Student
+from datetime import timedelta
 
 # refactored test class
 class TestStudent(unittest.TestCase):
@@ -19,7 +20,7 @@ class TestStudent(unittest.TestCase):
         print('setUp')
         # creating an instance of the Student class
         self.student = Student('Charlie', 'Harland')
-    
+
     # unittest tearDown method (not needed in this example)
     def tearDown(self):
         print('tearDown')
@@ -39,6 +40,12 @@ class TestStudent(unittest.TestCase):
     def test_student_email(self):
         print('test_student_email')
         self.assertEqual(self.student.student_email, 'charlie.harland@email.com')
+
+    def test_apply_extension(self):
+        original_end_date = self.student.end_date
+        days = 10
+        self.student.apply_extension(days)
+        self.assertEqual(self.student.end_date, original_end_date + timedelta(days=days))
 
 
 # # un-refactored test class
