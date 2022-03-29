@@ -1,6 +1,7 @@
 import unittest
 from student import Student
 from datetime import timedelta
+from unittest.mock import patch  # to mock requests
 
 # refactored test class
 class TestStudent(unittest.TestCase):
@@ -46,6 +47,25 @@ class TestStudent(unittest.TestCase):
         days = 10
         self.student.apply_extension(days)
         self.assertEqual(self.student.end_date, original_end_date + timedelta(days=days))
+
+    def test_course_schedule_success(self):
+        # setting our context manager (to mock an API)
+        with patch("student.requests.get") as mocked_get:
+            mocked_get.return_value.ok = True
+            mocked_get.return_value.text = "Success"
+
+            # getting the student's schedule from the fictional API
+            schedule = self.student.course_schedule()
+            self.assertEqual(schedule, "Success")
+
+    def test_course_schedule_failed(self):
+        with patch("student.requests.get") as mocked_get:
+            mocked_get.return_value.ok = False
+
+            # getting the student's schedule from the fictional API
+            schedule = self.student.course_schedule()
+            self.assertEqual(schedule, "Something went wrong with the request")
+
 
 
 # # un-refactored test class

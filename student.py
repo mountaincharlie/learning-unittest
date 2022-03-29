@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+import requests  # for making requests to APIs etc
 
 
 class Student:
@@ -25,3 +26,13 @@ class Student:
 
     def apply_extension(self, days):
         self.end_date = self.end_date + timedelta(days=days)
+
+    def course_schedule(self):
+        # requesting from a fictional API
+        response = requests.get(f"http://company.com/course-schedule/{self._last_name}/{self._first_name}")
+
+        # checking if it was successful
+        if response.ok:
+            return response.text
+        else:
+            return "Something went wrong with the request"
